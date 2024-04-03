@@ -203,5 +203,5 @@ def update_graph(n_clicks,input_val1,input_val2,input_val3,input_val4,input_val5
 
 # Run the app
 if __name__ == '__main__':
-    app.run_server(host="0.0.0.0", port="8050")
+    app.run_server(host="0.0.0.0", port="8053")
     #app.run(debug=True, port=8051)
