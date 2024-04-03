@@ -119,7 +119,7 @@ def Coating_over_time(cover,h1,D_before,D_after,hs,trep,T,Cs,nmax,interval):
         som = Cs + np.sum(BB/integral_term*Term2*np.exp(-np.power(lambdas.T,2)*tt),axis=0)
         chlorides = np.maximum(som,0.0)
         
-        res_list.append(chlorides)
+        res_list.append(chlorides[0])
         
     return res_list
 
@@ -146,7 +146,7 @@ def Coating_over_depth(xmax, h1, D_before, D_after, hs, trep, T, Cs, nmax, inter
         som = Cs + np.sum(BB / integral_term * Term2 * np.exp(-np.power(lambdas.T, 2) * T), axis=0)
         chlorides = np.maximum(som, 0.0)
 
-        res_list.append(chlorides)
+        res_list.append(chlorides[0])
 
     return res_list
 

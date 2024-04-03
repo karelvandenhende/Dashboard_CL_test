@@ -224,7 +224,7 @@ def C_paper_vectorized_over_time(cover,h1,h2,D1,D2_ini,D2_rep,trep,T,Cs,nmax,int
         som = Cs + np.sum(BB/integral_term*Term2*np.exp(-np.power(lambdas.T,2)*tt),axis=0)
         chlorides = np.maximum(som,0.0)
         
-        res_list.append(chlorides)
+        res_list.append(chlorides[0])
 
     return res_list
 
@@ -249,13 +249,13 @@ def C_paper_vectorized_over_depth(xmax, h1, h2, D1, D2_ini, D2_rep, trep, T, Cs,
 
     res_list = []
 
-    for tt in range(-mortar, xmax):
-        Term2 = fn(np.tile(mortar + tt, (nmax, 1)), h1, h2, np.tile(D1, (nmax, 1)), np.tile(D2_rep, (nmax, 1)),
+    for tt in range(-h1, xmax):
+        Term2 = fn(np.tile(h1 + tt, (nmax, 1)), h1, h2, np.tile(D1, (nmax, 1)), np.tile(D2_rep, (nmax, 1)),
                    lambdas.T)
         som = Cs + np.sum(BB / integral_term * Term2 * np.exp(-np.power(lambdas.T, 2) * T), axis=0)
         chlorides = np.maximum(som, 0.0)
 
-        res_list.append(chlorides)
+        res_list.append(chlorides[0])
 
     return res_list
 

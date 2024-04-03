@@ -71,30 +71,30 @@ app.layout = html.Div([
 ])
 
 def y_results(D,Cs,t1,t2,hs,xmax):
-    y_range = Coating_over_depth(xmax,300,np.array([float(D)*31.54]),np.array([float(D)*31.54]),np.array([float(hs)]),float(t1),float(t2),np.array([float(Cs)]),50,20)[0]
+    y_range = Coating_over_depth(xmax,300,np.array([float(D)*31.54]),np.array([float(D)*31.54]),np.array([float(hs)]),float(t1),float(t2),np.array([float(Cs)]),50,20)
     return y_range
 
-def y_results_overlay(D,D2,Cs,t1,t2,thick,x_range):
-    y_range = C_paper_vectorized_over_depth(xmax,thick,300,np.array([float(D2)*31.54]),np.array([float(D)*31.54]),np.array([float(D)*31.54]),float(t1),float(t2),np.array([float(Cs)]),50,20)[0]
+def y_results_overlay(D,D2,Cs,t1,t2,thick,xmax):
+    y_range = C_paper_vectorized_over_depth(xmax,thick,300,np.array([float(D2)*31.54]),np.array([float(D)*31.54]),np.array([float(D)*31.54]),float(t1),float(t2),np.array([float(Cs)]),50,20)
     return y_range
 
-def y_results_replace(D,D2,Cs,t1,t2,thick,x_range):
-    y_range = C_paper_vectorized2_over_depth(xmax,thick,300,np.array([float(D2)*31.54]),np.array([float(D)*31.54]),np.array([float(D)*31.54]),float(t1),float(t2),np.array([float(Cs)]),50,20)[0]
+def y_results_replace(D,D2,Cs,t1,t2,thick,xmax):
+    y_range = C_paper_vectorized2_over_depth(xmax,thick,300,np.array([float(D2)*31.54]),np.array([float(D)*31.54]),np.array([float(D)*31.54]),float(t1),float(t2),np.array([float(Cs)]),50,20)
     return y_range
 
 def y_results_norep(D,Cs,t1,t2,x_range):
     return float(Cs)*(1-scipy.special.erf(x_range/(2*np.power(float(D)*31.54*(float(t1)+float(t2)),0.5))))
 
-def coating_over_time(D,Cs,t1,t_range2,hs,cover):
-    y_range = Coating_over_time(np.array([float(cover)]),300,np.array([float(D)*31.54]),np.array([float(D)*31.54]),np.array([float(hs)]),float(t1),t,np.array([float(Cs)]),50,20)[0]
+def coating_over_time(D,Cs,t1,t2,hs,cover):
+    y_range = Coating_over_time(np.array([float(cover)]),300,np.array([float(D)*31.54]),np.array([float(D)*31.54]),np.array([float(hs)]),float(t1),t2,np.array([float(Cs)]),50,20)
     return y_range
 
-def overlay_over_time(D,D2,Cs,t1,t_range2,thick,cover):
-    y_range = C_paper_vectorized_over_time(float(cover),thick,300,np.array([float(D2)*31.54]),np.array([float(D)*31.54]),np.array([float(D)*31.54]),float(t1),t,np.array([float(Cs)]),50,20)[0]
+def overlay_over_time(D,D2,Cs,t1,t2,thick,cover):
+    y_range = C_paper_vectorized_over_time(float(cover),thick,300,np.array([float(D2)*31.54]),np.array([float(D)*31.54]),np.array([float(D)*31.54]),float(t1),t2,np.array([float(Cs)]),50,20)
     return y_range
 
-def replace_over_time(D,D2,Cs,t1,t_range2,thick,cover):
-    y_range = C_paper_vectorized2(float(cover),thick,300,np.array([float(D2)*31.54]),np.array([float(D)*31.54]),np.array([float(D)*31.54]),float(t1),t,np.array([float(Cs)]),50,20)[0]
+def replace_over_time(D,D2,Cs,t1,t2,thick,cover):
+    y_range = C_paper_vectorized2_over_time(float(cover),thick,300,np.array([float(D2)*31.54]),np.array([float(D)*31.54]),np.array([float(D)*31.54]),float(t1),t2,np.array([float(Cs)]),50,20)
     return y_range
 
 def nothing_over_time(D,Cs,t_range,cover):
@@ -130,22 +130,22 @@ def update_graph(n_clicks,input_val1,input_val2,input_val3,input_val4,input_val5
             fig = px.scatter(title='Concentration over depth at age of '+str(float(input_val3)+float(input_val4))+' y')
             xmax = 100
             if 'no-repair' in curves:
-                y_values2 = y_results_norep(input_val1,input_val2,input_val3,input_val4,xmax)
+                y_values2 = y_results_norep(input_val1,input_val2,input_val3,input_val4,x_range)
                 fig.add_scatter(x=x_range, y=y_values2, mode='lines', name='No repair')
-            
+
             if 'coating' in curves:
-                y_values = y_results(input_val1,input_val2,input_val3,input_val4,input_val5,x_range)
+                y_values = y_results(input_val1,input_val2,input_val3,input_val4,input_val5,xmax)
                 fig.add_scatter(x=x_range, y=y_values, mode='lines', name='Coating')
-            
+
             if 'replace' in curves:
-                y_values3 = y_results_replace(input_val1,input_val6,input_val2,input_val3,input_val4,input_val7,x_range)
+                y_values3 = y_results_replace(input_val1,input_val6,input_val2,input_val3,input_val4,input_val7,xmax)
                 fig.add_scatter(x=x_range, y=y_values3, mode='lines', name='Replace')
-                
+
             if 'overlay' in curves:
-                y_values4 = y_results_overlay(input_val1,input_val6,input_val2,input_val3,input_val4,input_val7,x_range)
+                y_values4 = y_results_overlay(input_val1,input_val6,input_val2,input_val3,input_val4,input_val7,xmax)
                 x_overlay = np.linspace(0,120,121) - float(input_val7)
                 fig.add_scatter(x=x_overlay, y=y_values4, mode='lines', name='Overlay')
-            
+
             fig.update_layout(xaxis_title='Depth [mm]', yaxis_title='Chloride concentration [m%cem]')
 
             # Add horizontal dotted line
@@ -164,35 +164,35 @@ def update_graph(n_clicks,input_val1,input_val2,input_val3,input_val4,input_val5
             t_range_tot = t_range1.tolist() + t_range2.tolist()
 
             y_no_rep1 = nothing_over_time(input_val1,input_val2,t_range1,input_val8)
-            
+
             fig2 = px.scatter(title='Concentration over time at cover')
-            
+
             if 'no-repair' in curves:
                 y_no_rep2 = nothing_over_time(input_val1,input_val2,t_range2,input_val8)
                 y_no_rep = y_no_rep1 + y_no_rep2
                 fig2.add_scatter(x=t_range_tot, y=y_no_rep, mode='lines', name='No repair')
-                
+
             if 'coating' in curves:
-                y_coating2 = coating_over_time(input_val1,input_val2,input_val3,t_range2_prox,input_val5,input_val8)
+                y_coating2 = coating_over_time(input_val1,input_val2,input_val3,int(input_val4),input_val5,input_val8)
                 y_coating = y_no_rep1 + y_coating2
                 fig2.add_scatter(x=t_range_tot, y=y_coating, mode='lines', name='Coating')
 
             if 'replace' in curves:
-                y_replace2 = replace_over_time(input_val1,input_val6,input_val2,input_val3,t_range2_prox,input_val7,input_val8)
+                y_replace2 = replace_over_time(input_val1,input_val6,input_val2,input_val3,int(input_val4),input_val7,input_val8)
                 y_replace = y_no_rep1 + y_replace2
                 fig2.add_scatter(x=t_range_tot, y=y_replace, mode='lines', name='Replace')
-            
+
             if 'overlay' in curves:
-                y_overlay2 = overlay_over_time(input_val1,input_val6,input_val2,input_val3,t_range2_prox,input_val7,input_val8)
+                y_overlay2 = overlay_over_time(input_val1,input_val6,input_val2,input_val3,int(input_val4),input_val7,input_val8)
                 y_overlay = y_no_rep1 + y_overlay2
                 fig2.add_scatter(x=t_range_tot, y=y_overlay, mode='lines', name='Overlay')
-            
+
             fig2.update_layout(xaxis_title='Time [y]', yaxis_title='Chloride concentration [m%cem]')
 
             # Add horizontal dotted line
             fig2.add_hline(y=0.4, line_dash="dot", annotation_text="Critical content", annotation_position="bottom left")
             fig2.add_vline(x=float(input_val3), line_dash="dot", annotation_text="Intervention", annotation_position="top right")
-            
+
             return fig, fig2
         except:
             return {}, {}
@@ -203,5 +203,5 @@ def update_graph(n_clicks,input_val1,input_val2,input_val3,input_val4,input_val5
 
 # Run the app
 if __name__ == '__main__':
-    app.run_server(host="0.0.0.0", port="8053")
-    #app.run(debug=True, port=8051)
+    #app.run_server(host="0.0.0.0", port="8051")
+    app.run(debug=True, port=8051)
