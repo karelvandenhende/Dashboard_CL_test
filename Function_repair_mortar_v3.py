@@ -228,6 +228,37 @@ def C_paper_vectorized_over_time(cover,h1,h2,D1,D2_ini,D2_rep,trep,T,Cs,nmax,int
 
     return res_list
 
+
+def C_paper_vectorized_over_depth(xmax, h1, h2, D1, D2_ini, D2_rep, trep, T, Cs, nmax, interval):
+    som = Cs.copy()
+
+    lambdas = search_lambda5_vect(h1 / np.power(D1, 0.5), h2 / np.power(D2_rep, 0.5), D1, D2_rep, nmax,
+                                  interval)  # *(h1/np.power(D1_single,0.5)))
+
+    Dc_prior = np.tile(D2_ini[:, np.newaxis], (1, nmax))
+    D11 = np.tile(D1[:, np.newaxis], (1, nmax))
+    D22 = np.tile(D2_rep[:, np.newaxis], (1, nmax))
+    Cs_extend = np.tile(Cs[:, np.newaxis], (1, nmax))
+    BB = total_integral(Dc_prior, D11, D22, lambdas, h1, h2, trep, Cs_extend).T
+
+    D1_ext = np.tile(D1[:, np.newaxis], (1, nmax))
+    D2_ext = np.tile(D2_rep[:, np.newaxis], (1, nmax))
+    integral_term = integral(h1, h2, D1_ext, D2_ext, lambdas).T
+
+
+
+    res_list = []
+
+    for tt in range(-mortar, xmax):
+        Term2 = fn(np.tile(mortar + tt, (nmax, 1)), h1, h2, np.tile(D1, (nmax, 1)), np.tile(D2_rep, (nmax, 1)),
+                   lambdas.T)
+        som = Cs + np.sum(BB / integral_term * Term2 * np.exp(-np.power(lambdas.T, 2) * T), axis=0)
+        chlorides = np.maximum(som, 0.0)
+
+        res_list.append(chlorides)
+
+    return res_list
+
 def mortar_overlay_over_time(cover,h1,h2,D1,D2_ini,D2_rep,trep,T,Cs,Ccr,nmax,interval):
     #plt.plot(C_paper_vectorized(cover,h1,h2,D1,D2,trep,T,Cs,nmax,interval,a_c,b_c,a_m))
     

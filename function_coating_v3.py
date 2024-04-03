@@ -123,6 +123,33 @@ def Coating_over_time(cover,h1,D_before,D_after,hs,trep,T,Cs,nmax,interval):
         
     return res_list
 
+
+def Coating_over_depth(xmax, h1, D_before, D_after, hs, trep, T, Cs, nmax, interval):
+    som = Cs.copy()
+
+    lambdas = search_lambda4_vect(h1, D_after, hs, nmax, interval)
+
+    Dc_prior = np.tile(D_before[:, np.newaxis], (1, nmax))
+    D22 = np.tile(D_after[:, np.newaxis], (1, nmax))
+    hs_ext = np.tile(hs[:, np.newaxis], (1, nmax))
+    Cs_extend = np.tile(Cs[:, np.newaxis], (1, nmax))
+    BB = total_integral(Dc_prior, D22, hs_ext, lambdas, h1, trep, Cs_extend).T
+
+    D1_ext = np.tile(D_after[:, np.newaxis], (1, nmax))
+    hs_ext = np.tile(hs[:, np.newaxis], (1, nmax))
+    integral_term = integral(D1_ext, lambdas, h1, hs_ext).T
+
+    res_list = []
+
+    for tt in range(xmax):
+        Term2 = fn(np.tile(tt, (nmax, 1)), np.tile(D_after, (nmax, 1)), lambdas.T, np.tile(hs, (nmax, 1)))
+        som = Cs + np.sum(BB / integral_term * Term2 * np.exp(-np.power(lambdas.T, 2) * T), axis=0)
+        chlorides = np.maximum(som, 0.0)
+
+        res_list.append(chlorides)
+
+    return res_list
+
 def Coating_PDep_over_time(cover,h1,D_before,D_after,hs,trep,T,Cs,nmax,interval,crit):
     res_list = Coating_over_time(cover,h1,D_before,D_after,hs,trep,T,Cs,nmax,interval)
     Pdep_list = []
