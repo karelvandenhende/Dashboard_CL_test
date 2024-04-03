@@ -75,11 +75,11 @@ def y_results(D,Cs,t1,t2,hs,xmax):
     return y_range
 
 def y_results_overlay(D,D2,Cs,t1,t2,thick,xmax):
-    y_range = C_paper_vectorized_over_depth(xmax,thick,300,np.array([float(D2)*31.54]),np.array([float(D)*31.54]),np.array([float(D)*31.54]),float(t1),float(t2),np.array([float(Cs)]),50,20)
+    y_range = C_paper_vectorized_over_depth(xmax,int(thick),300,np.array([float(D2)*31.54]),np.array([float(D)*31.54]),np.array([float(D)*31.54]),float(t1),float(t2),np.array([float(Cs)]),50,20)
     return y_range
 
 def y_results_replace(D,D2,Cs,t1,t2,thick,xmax):
-    y_range = C_paper_vectorized2_over_depth(xmax,thick,300,np.array([float(D2)*31.54]),np.array([float(D)*31.54]),np.array([float(D)*31.54]),float(t1),float(t2),np.array([float(Cs)]),50,20)
+    y_range = C_paper_vectorized2_over_depth(xmax,int(thick),300,np.array([float(D2)*31.54]),np.array([float(D)*31.54]),np.array([float(D)*31.54]),float(t1),float(t2),np.array([float(Cs)]),50,20)
     return y_range
 
 def y_results_norep(D,Cs,t1,t2,x_range):
@@ -90,11 +90,11 @@ def coating_over_time(D,Cs,t1,t2,hs,cover):
     return y_range
 
 def overlay_over_time(D,D2,Cs,t1,t2,thick,cover):
-    y_range = C_paper_vectorized_over_time(float(cover),thick,300,np.array([float(D2)*31.54]),np.array([float(D)*31.54]),np.array([float(D)*31.54]),float(t1),t2,np.array([float(Cs)]),50,20)
+    y_range = C_paper_vectorized_over_time(float(cover),int(thick),300,np.array([float(D2)*31.54]),np.array([float(D)*31.54]),np.array([float(D)*31.54]),float(t1),t2,np.array([float(Cs)]),50,20)
     return y_range
 
 def replace_over_time(D,D2,Cs,t1,t2,thick,cover):
-    y_range = C_paper_vectorized2_over_time(float(cover),thick,300,np.array([float(D2)*31.54]),np.array([float(D)*31.54]),np.array([float(D)*31.54]),float(t1),t2,np.array([float(Cs)]),50,20)
+    y_range = C_paper_vectorized2_over_time(float(cover),int(thick),300,np.array([float(D2)*31.54]),np.array([float(D)*31.54]),np.array([float(D)*31.54]),float(t1),t2,np.array([float(Cs)]),50,20)
     return y_range
 
 def nothing_over_time(D,Cs,t_range,cover):
