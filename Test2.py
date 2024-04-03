@@ -17,6 +17,7 @@ import plotly.express as px
 
 # Initialize the app
 app = Dash(__name__)
+server = app.server
 
 # Define input parameters
 inputs = [
