@@ -135,79 +135,79 @@ def nothing_over_time(D,Cs,t_range,cover):
 def update_graph(n_clicks,input_val1,input_val2,input_val3,input_val4,input_val5,input_val6,input_val7,input_val8,curves):
     if n_clicks > 0:
         
-        try:
-            n_clicks = 0
+        #try:
+        n_clicks = 0
 
-            #GRAPH1
-            fig = px.scatter(title='Concentration over depth at age of '+str(float(input_val3)+float(input_val4))+' y')
+        #GRAPH1
+        fig = px.scatter(title='Concentration over depth at age of '+str(float(input_val3)+float(input_val4))+' y')
+        
+        if 'no-repair' in curves:
+            y_values2 = y_results_norep(input_val1,input_val2,input_val3,input_val4,x_range)
+            fig.add_scatter(x=x_range, y=y_values2, mode='lines', name='No repair')
+        
+        if 'coating' in curves:
+            y_values = y_results(input_val1,input_val2,input_val3,input_val4,input_val5,x_range)
+            fig.add_scatter(x=x_range, y=y_values, mode='lines', name='Coating')
+        
+        if 'replace' in curves:
+            y_values3 = y_results_replace(input_val1,input_val6,input_val2,input_val3,input_val4,input_val7,x_range)
+            fig.add_scatter(x=x_range, y=y_values3, mode='lines', name='Replace')
             
-            if 'no-repair' in curves:
-                y_values2 = y_results_norep(input_val1,input_val2,input_val3,input_val4,x_range)
-                fig.add_scatter(x=x_range, y=y_values2, mode='lines', name='No repair')
-            
-            if 'coating' in curves:
-                y_values = y_results(input_val1,input_val2,input_val3,input_val4,input_val5,x_range)
-                fig.add_scatter(x=x_range, y=y_values, mode='lines', name='Coating')
-            
-            if 'replace' in curves:
-                y_values3 = y_results_replace(input_val1,input_val6,input_val2,input_val3,input_val4,input_val7,x_range)
-                fig.add_scatter(x=x_range, y=y_values3, mode='lines', name='Replace')
-                
-            if 'overlay' in curves:
-                y_values4 = y_results_overlay(input_val1,input_val6,input_val2,input_val3,input_val4,input_val7,x_range)
-                x_overlay = np.linspace(0,120,121) - float(input_val7)
-                fig.add_scatter(x=x_overlay, y=y_values4, mode='lines', name='Overlay')
-            
-            fig.update_layout(xaxis_title='Depth [mm]', yaxis_title='Chloride concentration [m%cem]')
+        if 'overlay' in curves:
+            y_values4 = y_results_overlay(input_val1,input_val6,input_val2,input_val3,input_val4,input_val7,x_range)
+            x_overlay = np.linspace(0,120,121) - float(input_val7)
+            fig.add_scatter(x=x_overlay, y=y_values4, mode='lines', name='Overlay')
+        
+        fig.update_layout(xaxis_title='Depth [mm]', yaxis_title='Chloride concentration [m%cem]')
 
-            # Add horizontal dotted line
-            fig.add_hline(y=0.4, line_dash="dot", annotation_text="Critical content", annotation_position="bottom left")
-            fig.add_vline(x=float(input_val8), line_dash="dot", annotation_text="Cover", annotation_position="top right")
+        # Add horizontal dotted line
+        fig.add_hline(y=0.4, line_dash="dot", annotation_text="Critical content", annotation_position="bottom left")
+        fig.add_vline(x=float(input_val8), line_dash="dot", annotation_text="Cover", annotation_position="top right")
 
-            # Customize axes limits
-            fig.update_xaxes(range=[-float(input_val7), 80])
-            fig.update_yaxes(range=[0, float(input_val2)+0.5])
+        # Customize axes limits
+        fig.update_xaxes(range=[-float(input_val7), 80])
+        fig.update_yaxes(range=[0, float(input_val2)+0.5])
 
 
-            #GRAPH2
-            t_range1 = np.linspace(0.01,float(input_val3),int(input_val3)+1)
-            t_range2_prox = np.linspace(1,float(input_val4),int(input_val4))
-            t_range2 = np.linspace(float(input_val3)+1,float(input_val3)+float(input_val4),int(input_val4))
-            t_range_tot = t_range1.tolist() + t_range2.tolist()
+        #GRAPH2
+        t_range1 = np.linspace(0.01,float(input_val3),int(input_val3)+1)
+        t_range2_prox = np.linspace(1,float(input_val4),int(input_val4))
+        t_range2 = np.linspace(float(input_val3)+1,float(input_val3)+float(input_val4),int(input_val4))
+        t_range_tot = t_range1.tolist() + t_range2.tolist()
 
-            y_no_rep1 = nothing_over_time(input_val1,input_val2,t_range1,input_val8)
+        y_no_rep1 = nothing_over_time(input_val1,input_val2,t_range1,input_val8)
+        
+        fig2 = px.scatter(title='Concentration over time at cover')
+        
+        if 'no-repair' in curves:
+            y_no_rep2 = nothing_over_time(input_val1,input_val2,t_range2,input_val8)
+            y_no_rep = y_no_rep1 + y_no_rep2
+            fig2.add_scatter(x=t_range_tot, y=y_no_rep, mode='lines', name='No repair')
             
-            fig2 = px.scatter(title='Concentration over time at cover')
-            
-            if 'no-repair' in curves:
-                y_no_rep2 = nothing_over_time(input_val1,input_val2,t_range2,input_val8)
-                y_no_rep = y_no_rep1 + y_no_rep2
-                fig2.add_scatter(x=t_range_tot, y=y_no_rep, mode='lines', name='No repair')
-                
-            if 'coating' in curves:
-                y_coating2 = coating_over_time(input_val1,input_val2,input_val3,t_range2_prox,input_val5,input_val8)
-                y_coating = y_no_rep1 + y_coating2
-                fig2.add_scatter(x=t_range_tot, y=y_coating, mode='lines', name='Coating')
+        if 'coating' in curves:
+            y_coating2 = coating_over_time(input_val1,input_val2,input_val3,t_range2_prox,input_val5,input_val8)
+            y_coating = y_no_rep1 + y_coating2
+            fig2.add_scatter(x=t_range_tot, y=y_coating, mode='lines', name='Coating')
 
-            if 'replace' in curves:
-                y_replace2 = replace_over_time(input_val1,input_val6,input_val2,input_val3,t_range2_prox,input_val7,input_val8)
-                y_replace = y_no_rep1 + y_replace2
-                fig2.add_scatter(x=t_range_tot, y=y_replace, mode='lines', name='Replace')
-            
-            if 'overlay' in curves:
-                y_overlay2 = overlay_over_time(input_val1,input_val6,input_val2,input_val3,t_range2_prox,input_val7,input_val8)
-                y_overlay = y_no_rep1 + y_overlay2
-                fig2.add_scatter(x=t_range_tot, y=y_overlay, mode='lines', name='Overlay')
-            
-            fig2.update_layout(xaxis_title='Time [y]', yaxis_title='Chloride concentration [m%cem]')
+        if 'replace' in curves:
+            y_replace2 = replace_over_time(input_val1,input_val6,input_val2,input_val3,t_range2_prox,input_val7,input_val8)
+            y_replace = y_no_rep1 + y_replace2
+            fig2.add_scatter(x=t_range_tot, y=y_replace, mode='lines', name='Replace')
+        
+        if 'overlay' in curves:
+            y_overlay2 = overlay_over_time(input_val1,input_val6,input_val2,input_val3,t_range2_prox,input_val7,input_val8)
+            y_overlay = y_no_rep1 + y_overlay2
+            fig2.add_scatter(x=t_range_tot, y=y_overlay, mode='lines', name='Overlay')
+        
+        fig2.update_layout(xaxis_title='Time [y]', yaxis_title='Chloride concentration [m%cem]')
 
-            # Add horizontal dotted line
-            fig2.add_hline(y=0.4, line_dash="dot", annotation_text="Critical content", annotation_position="bottom left")
-            fig2.add_vline(x=float(input_val3), line_dash="dot", annotation_text="Intervention", annotation_position="top right")
-            
-            return fig, fig2
-        except:
-            return {}, {}
+        # Add horizontal dotted line
+        fig2.add_hline(y=0.4, line_dash="dot", annotation_text="Critical content", annotation_position="bottom left")
+        fig2.add_vline(x=float(input_val3), line_dash="dot", annotation_text="Intervention", annotation_position="top right")
+        
+        return fig, fig2
+        #except:
+        #    return {}, {}
     else:
         # Return an empty figure if button not clicked yet
         return {}, {}
