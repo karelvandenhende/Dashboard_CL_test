@@ -73,19 +73,19 @@ app.layout = html.Div([
 def y_results_coating(D,Cs,t1,t2,hs,x_range):
     y_range = []
     for x in x_range:
-        y_range.append(Coating(np.array([float(x)]),300,np.array([float(D)*31.54]),np.array([float(D)*31.54]),np.array([float(hs)]),float(t1),float(t2),np.array([float(Cs)]),50,50)[0])
+        y_range.append(Coating(np.array([float(x)]),300,np.array([float(D)*31.54]),np.array([float(D)*31.54]),np.array([float(hs)]),float(t1),float(t2),np.array([float(Cs)]),20,20)[0])
     return y_range
 
 def y_results_overlay(D,D2,Cs,t1,t2,thick,x_range):
     y_range = []
     for x in x_range:
-        y_range.append(C_paper_vectorized(float(x)-thick,thick,300,np.array([float(D2)*31.54]),np.array([float(D)*31.54]),np.array([float(D)*31.54]),float(t1),float(t2),np.array([float(Cs)]),50,50)[0])
+        y_range.append(C_paper_vectorized(float(x)-thick,thick,300,np.array([float(D2)*31.54]),np.array([float(D)*31.54]),np.array([float(D)*31.54]),float(t1),float(t2),np.array([float(Cs)]),20,20)[0])
     return y_range
 
 def y_results_replace(D,D2,Cs,t1,t2,thick,x_range):
     y_range = []
     for x in x_range:
-        y_range.append(C_paper_vectorized2(float(x),thick,300,np.array([float(D2)*31.54]),np.array([float(D)*31.54]),np.array([float(D)*31.54]),float(t1),float(t2),np.array([float(Cs)]),50,50)[0])
+        y_range.append(C_paper_vectorized2(float(x),thick,300,np.array([float(D2)*31.54]),np.array([float(D)*31.54]),np.array([float(D)*31.54]),float(t1),float(t2),np.array([float(Cs)]),20,20)[0])
     return y_range
 
 def y_results_norep(D,Cs,t1,t2,x_range):
@@ -94,19 +94,19 @@ def y_results_norep(D,Cs,t1,t2,x_range):
 def coating_over_time(D,Cs,t1,t_range2,hs,cover):
     y_range = []
     for t in t_range2:
-        y_range.append(Coating(np.array([float(cover)]),300,np.array([float(D)*31.54]),np.array([float(D)*31.54]),np.array([float(hs)]),float(t1),t,np.array([float(Cs)]),50,50)[0])
+        y_range.append(Coating(np.array([float(cover)]),300,np.array([float(D)*31.54]),np.array([float(D)*31.54]),np.array([float(hs)]),float(t1),t,np.array([float(Cs)]),20,20)[0])
     return y_range
 
 def overlay_over_time(D,D2,Cs,t1,t_range2,thick,cover):
     y_range = []
     for t in t_range2:
-        y_range.append(C_paper_vectorized(float(cover),thick,300,np.array([float(D2)*31.54]),np.array([float(D)*31.54]),np.array([float(D)*31.54]),float(t1),t,np.array([float(Cs)]),50,50)[0])
+        y_range.append(C_paper_vectorized(float(cover),thick,300,np.array([float(D2)*31.54]),np.array([float(D)*31.54]),np.array([float(D)*31.54]),float(t1),t,np.array([float(Cs)]),20,20)[0])
     return y_range
 
 def replace_over_time(D,D2,Cs,t1,t_range2,thick,cover):
     y_range = []
     for t in t_range2:
-        y_range.append(C_paper_vectorized2(float(cover),thick,300,np.array([float(D2)*31.54]),np.array([float(D)*31.54]),np.array([float(D)*31.54]),float(t1),t,np.array([float(Cs)]),50,50)[0])
+        y_range.append(C_paper_vectorized2(float(cover),thick,300,np.array([float(D2)*31.54]),np.array([float(D)*31.54]),np.array([float(D)*31.54]),float(t1),t,np.array([float(Cs)]),20,20)[0])
     return y_range
 
 def nothing_over_time(D,Cs,t_range,cover):
