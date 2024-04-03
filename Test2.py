@@ -21,7 +21,7 @@ server = app.server
 
 # Define input parameters
 inputs = [
-    ("Diffusion coefficient concrete Dc [m^2/y]:", .5, "my-input1"),
+    ("Diffusion coefficient concrete DDc [m^2/y]:", .5, "my-input1"),
     ("Surface concentration Cs [m%cem]:", 2, "my-input2"),
     ("Age at application [y]:", 50, "my-input3"),
     ("Time after application [y]:", 5, "my-input4"),
@@ -70,7 +70,7 @@ app.layout = html.Div([
     #html.Div(id='my-output1')
 ])
 
-def y_results(D,Cs,t1,t2,hs,x_range):
+def y_results_coating(D,Cs,t1,t2,hs,x_range):
     y_range = []
     for x in x_range:
         y_range.append(Coating(np.array([float(x)]),300,np.array([float(D)*31.54]),np.array([float(D)*31.54]),np.array([float(hs)]),float(t1),float(t2),np.array([float(Cs)]),50,50)[0])
@@ -146,8 +146,8 @@ def update_graph(n_clicks,input_val1,input_val2,input_val3,input_val4,input_val5
             fig.add_scatter(x=x_range, y=y_values2, mode='lines', name='No repair')
         
         if 'coating' in curves:
-            y_values = y_results(input_val1,input_val2,input_val3,input_val4,input_val5,x_range)
-            fig.add_scatter(x=x_range, y=y_values, mode='lines', name='Coating')
+            y_values5 = y_results_coating(input_val1,input_val2,input_val3,input_val4,input_val5,x_range)
+            fig.add_scatter(x=x_range, y=y_values5, mode='lines', name='Coating')
         
         if 'replace' in curves:
             y_values3 = y_results_replace(input_val1,input_val6,input_val2,input_val3,input_val4,input_val7,x_range)
